@@ -1,4 +1,4 @@
-(function() {
+(function () {
   let videoCameraElm = document.getElementById("camera");
 
   let myMediaRecorder = null;
@@ -10,14 +10,14 @@
     navigator.mediaDevices
       .getNativeUserMedia({ video: true, audio: true })
       .then(
-        function(nativeStream) {
+        function (nativeStream) {
           stream = nativeStream;
           playStream(videoCameraElm, stream);
           myMediaRecorder = new MediaRecorder(stream);
           // button click has start & stop
           registerRecordBtnClick();
         },
-        function(err) {
+        function (err) {
           console.log(err);
         }
       );
@@ -28,25 +28,26 @@
      **/
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
-      .then(function(stream) {
+      .then(function (nativeStream) {
+        stream = nativeStream;
         playStream(videoCameraElm, stream);
-        /**
-         * Do the recording same as above!
-         **/
+        myMediaRecorder = new MediaRecorder(stream);
+        // button click has start & stop
+        registerRecordBtnClick();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       });
   }
   function playStream(vidElm, stream) {
-    vidElm.src = URL.createObjectURL(stream);
+    vidElm.srcObject = stream;
     vidElm.play();
   }
   function registerRecordBtnClick() {
     let recordingClassName = "record-stop-btn record";
     let stoppedClassName = "record-stop-btn stop";
     let recordButton = document.getElementById("record-btn");
-    recordButton.addEventListener("click", function() {
+    recordButton.addEventListener("click", function () {
       console.log("eee");
       if (myMediaRecorder === null) {
         return;
